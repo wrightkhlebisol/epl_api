@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use App\Team;
 
 class TeamsController extends Controller
 {
@@ -14,20 +15,26 @@ class TeamsController extends Controller
      * @return Response
      */
     
-    public function index(Request $request, User $user){
+    public function index(Request $request, Team $team){
 
-        return $user->all();
+        return $team->all();
     }
 
-    public function create(){
+    public function create(Team $team){
+
+        return $team->all();
 
     }
 
-    public function update(){
+    public function update(Team $team){
+
+        return $team->all();
         
     }
 
-    public function delete(){
+    public function delete(Team $team){
+
+        return $team->all();
         
     }
 }

@@ -25,7 +25,7 @@ $router->group(
 
         $router->get('/', 'FixturesController@index');
         $router->post('/fixtures', 'FixturesController@create');
-        $router->patch('/fixtures/{$team}', 'FixturesController@update');
-        $router->delete('/fixtures/{$team}', 'FixturesController@delete');
+        $router->patch('/fixtures/{$fixture}', 'FixturesController@update');
+        $router->delete('/fixtures/{$fixture}', 'FixturesController@delete');
     }
 );

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use App\Fixture;
 
 class FixturesController extends Controller
 {
@@ -14,24 +15,24 @@ class FixturesController extends Controller
      * @return Response
      */
     
-    public function index(Request $request, User $user){
+    public function index(Request $request, Fixture $fixture){
 
-        return $user->all();
+        return $fixture->all();
     }
 
-    public function create(Request $request, User $user){
+    public function create(Request $request, Fixture $fixture){
 
-        return $user->all();
+        return $fixture->all();
     }
 
-    public function update(Request $request, User $user){
+    public function update(Request $request, Fixture $fixture){
 
-        return $user->all();
+        return $fixture->all();
     }
 
-    public function delete(Request $request, User $user){
+    public function delete(Request $request, Fixture $fixture){
 
-        return $user->all();
+        return $fixture->all();
     }
 }
  

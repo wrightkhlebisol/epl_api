@@ -11,6 +11,21 @@
 |
 */
 
-$router->get('/', function () use ($router) {
-    return $router->app->version();
-});
+$router->group(
+    ['prefix' => 'api'], 
+    function () use ($router) {
+        $router->post('/register', 'AuthController@register');
+        $router->post('/login', 'AuthController@login');
+        $router->get('/logout', 'AuthController@logout');
+
+        $router->get('/teams', 'TeamsController@index');
+        $router->post('/teams', 'TeamsController@create');
+        $router->patch('/teams/{$team}', 'TeamsController@update');
+        $router->delete('/teams/{$team}', 'TeamsController@delete');
+
+        $router->get('/', 'FixturesController@index');
+        $router->post('/fixtures', 'FixturesController@create');
+        $router->patch('/fixtures/{$team}', 'FixturesController@update');
+        $router->delete('/fixtures/{$team}', 'FixturesController@delete');
+    }
+);

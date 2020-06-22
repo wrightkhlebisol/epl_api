@@ -9,32 +9,89 @@ use App\Team;
 class TeamsController extends Controller
 {
     /**
-     * Store a new user.
+     * List all teams.
      *
-     * @param  Request  $request
+     * @param  Team  $team
      * @return Response
      */
     
-    public function index(Request $request, Team $team){
-
-        return $team->all();
-    }
-
-    public function create(Team $team){
-
-        return $team->all();
+    public function index(Team $team){
+        return response($team->all(), 200);
 
     }
 
-    public function update(Team $team){
+    /**
+     * Store a new team.
+     *
+     * @param  Request  $request
+     * @param  Team  $team
+     * 
+     * @return Response
+     */
 
-        return $team->all();
+    public function create(Request $request, Team $team){
+
+        $this->validate($request, [
+            'team_name' => 'required|string|unique:teams'
+        ]);
+
+        
+        try{
+            $team->create($request->all());
+
+            return response()->json(['message' => 'Team created successfully', 'team' => $team], 200);
+
+        }catch(Exception $e){
+            return response(['message' => 'Team creation failed', 'reason' => $e], 409);
+        }
+
+    }
+
+    /**
+     * Update a team by its id.
+     *
+     * @param  Request  $request
+     * @param  Team  $team
+     * 
+     * @return Response
+     */
+
+    public function update(Request $request,Team $team){
+
+        $this->validate($request, [
+            'team_name' => 'required|string|unique:teams'
+        ]);
+
+        try{
+            $team = new Team;
+            $team->team_name = $request->team_name;
+            $team->update();
+
+            return response(['message' => 'Team update successful', 'team' => $team], 200);
+
+        }catch(Exception $e){
+            return response(['message' => 'Team update failed', 'reason' => $e], 409);
+        }
         
     }
 
-    public function delete(Team $team){
+    /**
+     * Delete a team by its id.
+     *
+     * @param  Team  $team
+     * @return Response
+     */
 
-        return $team->all();
+    public function delete(Team $team){
+        return $team->get();
+        // try{
+        //     $team->delete();
+
+        //     return response(['message' => 'Team deleted successful', 'team' => $team], 200);
+
+        // }catch(Exception $e){
+        //     return response(['message' => 'Team delete failed', 'reason' => $e], 409);
+        // }
         
     }
 }

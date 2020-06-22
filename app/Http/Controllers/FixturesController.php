@@ -8,31 +8,96 @@ use App\Fixture;
 
 class FixturesController extends Controller
 {
+    
     /**
-     * Store a new user.
+     * List all fixtures.
      *
-     * @param  Request  $request
+     * @param  Fixture  $fixture
      * @return Response
      */
     
-    public function index(Request $request, Fixture $fixture){
+    public function index(Fixture $fixture){
+        return response($fixture->all(), 200);
 
-        return $fixture->all();
     }
+
+    /**
+     * Store a new fixture.
+     *
+     * @param  Request  $request
+     * @param  Fixture  $fixture
+     * 
+     * @return Response
+     */
 
     public function create(Request $request, Fixture $fixture){
 
-        return $fixture->all();
+        $this->validate($request, [
+            'away_team_id' => 'required|int',
+            'home_team_id' => 'required|int',
+        ]);
+
+        
+        if($request->away_team_id !== $request->home_team_id){
+            try{
+                $fixture->create($request->all());
+
+                return response()->json(['message' => 'Fixture created successfully', 'fixture' => $fixture], 200);
+
+            }catch(Exception $e){
+                return response(['message' => 'Fixture creation failed', 'reason' => $e], 409);
+            }
+        }else{
+            return response()->json(['message' => 'Away Team cannot be same as Home Team'], 409);
+        }
+
     }
 
-    public function update(Request $request, Fixture $fixture){
+    /**
+     * Update a fixture by its id.
+     *
+     * @param  Request  $request
+     * @param  Fixture  $fixture
+     * 
+     * @return Response
+     */
 
-        return $fixture->all();
+    public function update(Request $request,Fixture $fixture){
+
+        $this->validate($request, [
+            'fixture_name' => 'required|string|unique:fixtures'
+        ]);
+
+        try{
+            $fixture->update($request->all());
+
+            return response(['message' => 'Fixture update successful', 'fixture' => $fixture], 200);
+
+        }catch(Exception $e){
+            return response(['message' => 'Fixture update failed', 'reason' => $e], 409);
+        }
+        
     }
 
-    public function delete(Request $request, Fixture $fixture){
+    /**
+     * Delete a fixture by its id.
+     *
+     * @param  Fixture  $fixture
+     * @return Response
+     */
 
-        return $fixture->all();
+    public function delete(Fixture $fixture){
+
+        // try{
+        //     $fixture->delete();
+
+        //     return response(['message' => 'Fixture deleted successful', 'fixture' => $fixture], 200);
+
+        // }catch(Exception $e){
+        //     return response(['message' => 'Fixture delete failed', 'reason' => $e], 409);
+        // }
+        
     }
+
 }
  

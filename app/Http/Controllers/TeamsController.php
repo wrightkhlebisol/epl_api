@@ -8,6 +8,17 @@ use App\Team;
 
 class TeamsController extends Controller
 {
+
+    /**
+     * Instantiate a new Auth instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * List all teams.
      *
@@ -16,7 +27,7 @@ class TeamsController extends Controller
      */
     
     public function index(Team $team){
-        return response($team->all(), 200);
+        return $team->all();
 
     }
 

@@ -8,6 +8,16 @@ use App\Fixture;
 
 class FixturesController extends Controller
 {
+    /**
+     * Instantiate a new UserController instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     
     /**
      * List all fixtures.

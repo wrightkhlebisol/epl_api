@@ -48,7 +48,7 @@ class FixturesController extends Controller
                 return response(['message' => 'Fixture creation failed', 'reason' => $e], 409);
             }
         }else{
-            return response()->json(['message' => 'Away Team cannot be same as Home Team'], 409);
+            return response()->json(['message' => 'Away Fixture cannot be same as Home Fixture'], 409);
         }
 
     }
@@ -62,19 +62,26 @@ class FixturesController extends Controller
      * @return Response
      */
 
-    public function update(Request $request,Fixture $fixture){
+    public function update(Request $request, $id){
 
         $this->validate($request, [
-            'fixture_name' => 'required|string|unique:fixtures'
+            'away_team_id' => 'required|int',
+            'home_team_id' => 'required|int'
         ]);
 
-        try{
-            $fixture->update($request->all());
+        if($request->away_team_id !== $request->home_team_id){
+            try{
+                $fixture = Fixture::findOrFail($id);
 
-            return response(['message' => 'Fixture update successful', 'fixture' => $fixture], 200);
-
-        }catch(Exception $e){
-            return response(['message' => 'Fixture update failed', 'reason' => $e], 409);
+                return $fixture;
+    
+                $fixture->update(['away_team_id' => $request->away_team_id, 'home_team_id' => $request->home_team_id]);
+    
+                return response(['message' => 'Fixture update successful', 'fixture' => $fixture], 200);
+    
+            }catch(Exception $e){
+                return response(['message' => 'Fixture update failed', 'reason' => $e], 409);
+            }
         }
         
     }
@@ -86,16 +93,17 @@ class FixturesController extends Controller
      * @return Response
      */
 
-    public function delete(Fixture $fixture){
+    public function delete($id){
+        try{
+            $fixture = Fixture::findOrFail($id);
 
-        // try{
-        //     $fixture->delete();
+            $fixture->delete();
 
-        //     return response(['message' => 'Fixture deleted successful', 'fixture' => $fixture], 200);
+            return response(['message' => 'Fixture deleted successful', 'fixture' => $fixture], 200);
 
-        // }catch(Exception $e){
-        //     return response(['message' => 'Fixture delete failed', 'reason' => $e], 409);
-        // }
+        }catch(Exception $e){
+            return response(['message' => 'Fixture delete failed', 'reason' => $e->message], 409);
+        }
         
     }
 

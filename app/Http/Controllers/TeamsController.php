@@ -56,16 +56,16 @@ class TeamsController extends Controller
      * @return Response
      */
 
-    public function update(Request $request,Team $team){
+    public function update(Request $request, $id){
 
         $this->validate($request, [
             'team_name' => 'required|string|unique:teams'
         ]);
 
         try{
-            $team = new Team;
-            $team->team_name = $request->team_name;
-            $team->update();
+            $team = Team::findOrFail($id);
+
+            $team->update(['team_name' => $request->team_name]);
 
             return response(['message' => 'Team update successful', 'team' => $team], 200);
 
@@ -82,16 +82,22 @@ class TeamsController extends Controller
      * @return Response
      */
 
-    public function delete(Team $team){
-        return $team->get();
-        // try{
-        //     $team->delete();
+    public function delete($id){
+        try{
+            $team = Team::findOrFail($id);
 
-        //     return response(['message' => 'Team deleted successful', 'team' => $team], 200);
+            if($team){
+                $team->delete();
+    
+                return response(['message' => 'Team deleted successful', 'team' => $team], 200);
 
-        // }catch(Exception $e){
-        //     return response(['message' => 'Team delete failed', 'reason' => $e], 409);
-        // }
+            }else{
+                return response(['message' => 'Team does not exist'], 404);
+            }
+
+        }catch(Exception $e){
+            return response(['message' => 'Team delete failed', 'reason' => $e->message], 409);
+        }
         
     }
 }

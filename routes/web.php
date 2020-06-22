@@ -20,12 +20,12 @@ $router->group(
 
         $router->get('/teams', 'TeamsController@index');
         $router->post('/teams', 'TeamsController@create');
-        $router->patch('/teams/{teams}', 'TeamsController@update');
-        $router->delete('/teams/{teams}', 'TeamsController@delete');
+        $router->patch('/teams/{id}', 'TeamsController@update');
+        $router->delete('/teams/{id}', 'TeamsController@delete');
 
         $router->get('/', 'FixturesController@index');
         $router->post('/fixtures', 'FixturesController@create');
-        $router->patch('/fixtures/{fixtures}', 'FixturesController@update');
-        $router->delete('/fixtures/{fixtures}', 'FixturesController@delete');
+        $router->patch('/fixtures/{id}', 'FixturesController@update');
+        $router->delete('/fixtures/{id}', 'FixturesController@delete');
     }
 );

@@ -80,6 +80,11 @@ $app->configure('app');
 //     'auth' => App\Http\Middleware\Authenticate::class,
 // ]);
 
+// Custom middleware
+$app->middleware([
+    App\Http\Middleware\CorsMiddleware::class
+ ]);
+
 /*
 |--------------------------------------------------------------------------
 | Register Service Providers

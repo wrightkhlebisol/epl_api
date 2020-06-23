@@ -14,7 +14,7 @@ class CreateFixturesTable extends Migration
     public function up()
     {
         Schema::create('fixtures', function (Blueprint $table) {
-            $table->primary(['home_team_id', 'away_team_id']);
+            $table->id();
             $table->foreignId('home_team_id');
             $table->foreignId('away_team_id');
             $table->timestamps();

@@ -69,7 +69,7 @@ class AuthController extends Controller
     }
 
     /**
-     * Store a new user.
+     * logout a user by setting localstorage bearer to empty.
      *
      * @param  Request  $request
      * @return Response

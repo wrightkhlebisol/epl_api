@@ -27,7 +27,7 @@ class TeamsController extends Controller
      */
     
     public function index(Team $team){
-        return $team->all();
+        return $team->latest()->get();
 
     }
 

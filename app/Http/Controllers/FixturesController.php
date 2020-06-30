@@ -15,7 +15,7 @@ class FixturesController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        // $this->middleware('auth');
     }
 
     /**
@@ -67,6 +67,24 @@ class FixturesController extends Controller
             return response()->json(
                 ['message' => 'Away Fixture cannot be same as Home Fixture'],
                 409
+            );
+        }
+    }
+
+    /**
+     * Get user by id
+     *
+     *
+     */
+
+    public function getUser($id)
+    {
+        try {
+            return Fixture::findOrFail($id);
+        } catch (Exception $e) {
+            return response(
+                ['message' => 'User not found', 'reason' => $e->message],
+                404
             );
         }
     }
